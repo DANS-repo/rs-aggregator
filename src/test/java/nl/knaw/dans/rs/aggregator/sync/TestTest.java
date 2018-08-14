@@ -1,6 +1,9 @@
 package nl.knaw.dans.rs.aggregator.sync;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
+import java.net.URI;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -14,9 +17,20 @@ import java.util.concurrent.TimeUnit;
 public class TestTest {
 
   public static void main(String[] args) throws Exception {
-    fixedRate();
+    //fixedRate();
     //fixedDelay();
     //computestart();
+
+    pathTest();
+  }
+
+  private static void pathTest() {
+    URI uri = URI.create("http://example.com/path/to/description.xml");
+    System.out.println(FilenameUtils.getName(uri.getPath()));
+
+    uri = URI.create("http://www.example.com");
+
+    System.out.println(FilenameUtils.getName(uri.getPath()));
   }
 
   private static void fixedDelay() {

@@ -55,9 +55,7 @@ public class AbstractUriReader {
     currentUri = uri;
     Result<R> result = new Result<R>(uri);
     HttpGet request = new HttpGet(uri);
-    CloseableHttpResponse response = null;
-    try  {
-      response = httpClient.execute(request);
+    try (CloseableHttpResponse response = httpClient.execute(request))  {
       int statusCode = response.getStatusLine().getStatusCode();
       result.setStatusLine(response.getStatusLine().toString());
       logger.debug("Received {} from {}", response.getStatusLine(), uri);
@@ -75,17 +73,8 @@ public class AbstractUriReader {
     } catch (Exception e) {
       logger.error("Error executing GET on uri {}", uri, e);
       result.addError(e);
-    } finally {
-      closeResponse(response);
     }
     return result;
   }
 
-  private void closeResponse(CloseableHttpResponse response) {
-    if (response != null) try {
-      response.close();
-    } catch (IOException e) {
-      logger.error("Error while closing HttpResponse: ", e);
-    }
-  }
 }

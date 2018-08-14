@@ -1,12 +1,11 @@
 package nl.knaw.dans.rs.aggregator.sync;
 
+import nl.knaw.dans.rs.aggregator.syncore.PathFinder;
 import nl.knaw.dans.rs.aggregator.syncore.SitemapConverterProvider;
 import nl.knaw.dans.rs.aggregator.util.LambdaUtil;
-import nl.knaw.dans.rs.aggregator.syncore.PathFinder;
 import nl.knaw.dans.rs.aggregator.xml.ResourceSyncContext;
 import nl.knaw.dans.rs.aggregator.xml.RsBuilder;
 import nl.knaw.dans.rs.aggregator.xml.RsRoot;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -69,17 +68,13 @@ public class FsSitemapConverterProvider implements SitemapConverterProvider {
 
   private boolean saveFile(InputStream instream, File file) throws IOException {
     boolean saved = false;
-    OutputStream outstream = new FileOutputStream(file);
     byte[] buffer = new byte[8 * 1024];
     int bytesRead;
-    try {
-      while ((bytesRead = instream.read(buffer)) != -1) {
+    try (OutputStream outstream = new FileOutputStream(file); InputStream ins = instream) {
+      while ((bytesRead = ins.read(buffer)) != -1) {
         outstream.write(buffer, 0, bytesRead);
       }
       saved = true;
-    } finally {
-      IOUtils.closeQuietly(instream);
-      IOUtils.closeQuietly(outstream);
     }
     return saved;
   }

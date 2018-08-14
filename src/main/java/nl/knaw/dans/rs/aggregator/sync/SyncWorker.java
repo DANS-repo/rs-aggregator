@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Created on 2017-04-15 14:36.
+ *
  */
 public class SyncWorker implements RsConstants {
 

@@ -16,6 +16,9 @@ import java.util.Optional;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RsLn {
 
+  public static final String REL_UP = "up";
+  public static final String REL_DESCRIBEDBY = "describedby";
+
   @XmlAttribute() private String rel;
   @XmlAttribute() private String href;
 

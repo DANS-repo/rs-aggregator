@@ -17,9 +17,11 @@ import static org.junit.Assume.assumeTrue;
 public class LiveSyncWorkerTest {
 
   private static String baseDirectory = "target/test-output/synchronizer";
-  private static String capabilityListUrl = "http://zandbak11.dans.knaw.nl/ehri2/mdx/capabilitylist.xml";
+  //private static String capabilityListUrl = "http://zandbak11.dans.knaw.nl/ehri2/mdx/capabilitylist.xml";
   //private static  String capabilityListUrl = "http://publisher-connector.core.ac.uk/resourcesync/sitemaps/elsevier/pdf/capabilitylist.xml";
   //private static String capabilityListUrl = "http://publisher-connector.core.ac.uk/resourcesync/sitemaps/elsevier/metadata/capabilitylist.xml";
+  //private static String capabilityListUrl = "https://data.anansi.clariah.nl/v5/resourcesync/u74ccc032adf8422d7ea92df96cd4783f0543db3b/gemeentegeschiedenisnl/capabilitylist.xml";
+  private static String capabilityListUrl = "https://data.anansi.clariah.nl/v5/resourcesync/sourceDescription.xml";
 
   @BeforeClass
   public static void initialize() throws Exception {

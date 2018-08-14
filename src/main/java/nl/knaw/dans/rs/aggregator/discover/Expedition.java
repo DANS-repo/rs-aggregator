@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  *  <li>The links in headers point to documents with capability 'capabilitylist'.</li>
  *  <li>The links in <i>robots.txt</i> point to documents with capability 'resourcelist'.</li>
  * </ol>
- * We will add forth way: a url that points to a document of whatever capability.
+ * We will add a forth way: a url that points to a document of whatever capability.
  *
  * @see <a href="http://www.openarchives.org/rs/1.0/resourcesync#Discovery">
  *   http://www.openarchives.org/rs/1.0/resourcesync#Discovery</a>

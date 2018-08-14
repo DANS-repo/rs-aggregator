@@ -23,6 +23,8 @@ public interface Sync {
   String PROP_CL_ITEMS_CREATED = CL + "items.created";
   String PROP_CL_ITEMS_UPDATED = CL + "items.updated";
   String PROP_CL_ITEMS_DELETED = CL + "items.deleted";
+  String PROP_CL_DESCRIPTION_FILE = CL + "description.file";
+  String PROP_CL_DESCRIPTION_TYPE = CL + "description.type";
 
   String SW = "sw."; // properties set by SyncWorker
   String PROP_SW_SYNC_START = SW + "z1.sync.start";

@@ -98,7 +98,7 @@ public class RsExplorer extends AbstractUriExplorer {
 
     if (followParentLinks) {
       // rs:ln rel="up" -> points to parent document, a urlset.
-      String parentLink = result.getContent().map(rsRoot -> rsRoot.getLink("up")).orElse(null);
+      String parentLink = result.getContent().map(rsRoot -> rsRoot.getHref("up")).orElse(null);
       if (parentLink != null && !index.contains(parentLink)) {
         try {
           URI parentUri = new URI(parentLink);
@@ -115,7 +115,7 @@ public class RsExplorer extends AbstractUriExplorer {
 
     if (followIndexLinks) {
       // rs:ln rel="index" -> points to parent index, a sitemapindex.
-      String indexLink = result.getContent().map(rsRoot -> rsRoot.getLink("index")).orElse(null);
+      String indexLink = result.getContent().map(rsRoot -> rsRoot.getHref("index")).orElse(null);
       if (indexLink != null && !index.contains(indexLink)) {
         try {
           URI indexUri = new URI(indexLink);

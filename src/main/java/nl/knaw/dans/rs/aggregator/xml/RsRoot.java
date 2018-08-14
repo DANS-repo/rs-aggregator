@@ -42,13 +42,22 @@ public abstract class RsRoot<T extends RsRoot, C extends RsItem> {
     return (T) this;
   }
 
-  public String getLink(String rel) {
+  public String getHref(String rel) {
     for (RsLn rsLn : linkList) {
       if (rel.equals(rsLn.getRel())) {
         return rsLn.getHref();
       }
     }
     return null;
+  }
+
+  public Optional<RsLn> getLink(String rel) {
+    for (RsLn rsLn : linkList) {
+      if (rel.equals(rsLn.getRel())) {
+        return Optional.of(rsLn);
+      }
+    }
+    return Optional.empty();
   }
 
   public int getLevel() {

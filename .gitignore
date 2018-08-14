@@ -16,3 +16,4 @@ target/
 logs/
 docker/destination/
 docker/cfg/stop
+/rs-aggregator.iml

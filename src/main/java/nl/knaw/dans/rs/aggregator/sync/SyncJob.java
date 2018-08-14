@@ -1,13 +1,13 @@
 package nl.knaw.dans.rs.aggregator.sync;
 
 import nl.knaw.dans.rs.aggregator.schedule.Job;
+import nl.knaw.dans.rs.aggregator.syncore.PathFinder;
 import nl.knaw.dans.rs.aggregator.syncore.ResourceManager;
 import nl.knaw.dans.rs.aggregator.syncore.SitemapConverterProvider;
 import nl.knaw.dans.rs.aggregator.syncore.Sync;
 import nl.knaw.dans.rs.aggregator.syncore.SyncPostProcessor;
 import nl.knaw.dans.rs.aggregator.syncore.VerificationPolicy;
 import nl.knaw.dans.rs.aggregator.util.NormURI;
-import nl.knaw.dans.rs.aggregator.syncore.PathFinder;
 import nl.knaw.dans.rs.aggregator.util.RsProperties;
 import nl.knaw.dans.rs.aggregator.xml.ResourceSyncContext;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;

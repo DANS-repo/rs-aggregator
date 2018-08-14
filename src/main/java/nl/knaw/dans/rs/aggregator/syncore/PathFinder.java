@@ -3,10 +3,13 @@ package nl.knaw.dans.rs.aggregator.syncore;
 import nl.knaw.dans.rs.aggregator.util.NormURI;
 import nl.knaw.dans.rs.aggregator.util.RsProperties;
 import nl.knaw.dans.rs.aggregator.util.ZonedDateTimeUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -48,6 +51,8 @@ public class PathFinder {
   private final File syncPropXmlFile;
   private final File prevSyncPropXmlFile;
   private final File capabilityListFile;
+
+  private File descriptionFile;
 
   public PathFinder(@Nonnull String baseDirectory, @Nonnull URI capabilityListUri) {
     this.capabilityListUri = capabilityListUri;
@@ -159,6 +164,20 @@ public class PathFinder {
     return capabilityListFile;
   }
 
+  public File getDescriptionFile(@Nullable URI uri) {
+    if (descriptionFile == null) {
+      String filename = "";
+      if (uri != null) {
+        filename = FilenameUtils.getName(uri.getPath());
+      }
+      if (filename.equals("")) {
+        filename = "description";
+      }
+      descriptionFile = new File(metadataDirectory, filename);
+    }
+    return descriptionFile;
+  }
+
   public File findMetadataFilePath(@Nonnull URI uri) {
     String restPath = extractPath(uri).replace(path, "");
     return new File(metadataDirectory, restPath);
@@ -186,8 +205,12 @@ public class PathFinder {
   }
 
   public Set<File> findMetadataFilePaths(Collection<URI> uris) {
-    return uris.parallelStream()
+    Set<File> files =  uris.parallelStream()
       .map(this::findMetadataFilePath).collect(Collectors.toSet());
+    if (descriptionFile != null) {
+      files.add(descriptionFile);
+    }
+    return files;
   }
 
 }

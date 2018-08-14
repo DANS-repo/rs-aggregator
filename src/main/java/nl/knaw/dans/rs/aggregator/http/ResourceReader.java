@@ -1,7 +1,6 @@
 package nl.knaw.dans.rs.aggregator.http;
 
 import nl.knaw.dans.rs.aggregator.util.LambdaUtil;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,11 +46,9 @@ public class ResourceReader extends AbstractUriReader {
     if (entity != null) {
       File file = getCurrentFile();
       file.getParentFile().mkdirs();
-      InputStream instream = entity.getContent();
-      OutputStream outstream = new FileOutputStream(file);
       byte[] buffer = new byte[8 * 1024];
       int bytesRead;
-      try {
+      try (InputStream instream = entity.getContent(); OutputStream outstream = new FileOutputStream(file)) {
         while ((bytesRead = instream.read(buffer)) != -1) {
           outstream.write(buffer, 0, bytesRead);
         }
@@ -60,10 +57,6 @@ public class ResourceReader extends AbstractUriReader {
           Date date = DateUtils.parseDate(lmh.getValue());
           file.setLastModified(date.getTime());
         }
-
-      } finally {
-        IOUtils.closeQuietly(instream);
-        IOUtils.closeQuietly(outstream);
       }
       return file;
     } else {
