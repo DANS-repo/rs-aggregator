@@ -8,12 +8,12 @@ import org.slf4j.LoggerFactory;
  */
 public class RunOnceScheduler implements JobScheduler {
 
-  private static Logger logger = LoggerFactory.getLogger(RunOnceScheduler.class);
+    private static Logger logger = LoggerFactory.getLogger(RunOnceScheduler.class);
 
-  @Override
-  public void schedule(Job job) throws Exception {
-    logger.info("Starting one-time job execution of {}.", job.getClass().getName());
-    job.execute();
-    logger.info("End of one-time job execution of {}.", job.getClass().getName());
-  }
+    @Override
+    public void schedule(Job job) throws Exception {
+        logger.info("Starting one-time job execution of {}.", job.getClass().getName());
+        job.execute();
+        logger.info("End of one-time job execution of {}.", job.getClass().getName());
+    }
 }

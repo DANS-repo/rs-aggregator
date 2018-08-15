@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
  * If a datetime string has no timezone info, we assume that the datetime is in the timezone
  * that is returned by the static {@link ZonedDateTimeUtil#getZoneId()}. This timezone will default to
  * {@link ZoneId#systemDefault()}, and can be set with {@link ZonedDateTimeUtil#setZoneId(ZoneId)}.
- *  </p>
+ * </p>
  * The following examples illustrate the conversion of several valid W3C Datetime strings (unmarshal -&gt; marshal).
  * Datetimes without timezone info were calculated with an offset of UTC+10:00.
  * <pre>
@@ -35,22 +35,21 @@ import java.time.ZonedDateTime;
  *    2005-03-09T14:30Z -&gt; 2005-03-09T14:30Z
  * </pre>
  *
- * @see
- * <a href="https://www.w3.org/TR/1998/NOTE-datetime-19980827">https://www.w3.org/TR/1998/NOTE-datetime-19980827</a>
+ * @see <a href="https://www.w3.org/TR/1998/NOTE-datetime-19980827">https://www
+ * .w3.org/TR/1998/NOTE-datetime-19980827</a>
  * <a href="https://tools.ietf.org/html/rfc3339">https://tools.ietf.org/html/rfc3339</a>
- *
-*/
+ */
 public class ZonedDateTimeAdapter extends XmlAdapter<String, ZonedDateTime> {
 
-  @Override
-  public ZonedDateTime unmarshal(String value) throws Exception {
-    return ZonedDateTimeUtil.fromXmlString(value);
-  }
+    @Override
+    public ZonedDateTime unmarshal(String value) throws Exception {
+        return ZonedDateTimeUtil.fromXmlString(value);
+    }
 
-  @Override
-  public String marshal(ZonedDateTime value) throws Exception {
-    return  ZonedDateTimeUtil.toXmlString(value);
-  }
+    @Override
+    public String marshal(ZonedDateTime value) throws Exception {
+        return ZonedDateTimeUtil.toXmlString(value);
+    }
 
 
 }

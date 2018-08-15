@@ -11,40 +11,40 @@ import java.util.TreeSet;
  */
 public class LinkList {
 
-  private Set<URI> validUris = new TreeSet<>();
-  private Set<String> invalidUris = new TreeSet<>();
+    private Set<URI> validUris = new TreeSet<>();
+    private Set<String> invalidUris = new TreeSet<>();
 
-  public void add(URI uri) {
-    validUris.add(uri);
-  }
-
-  public void add(String uriString) {
-    try {
-      add(new URI(uriString));
-    } catch (URISyntaxException e) {
-      invalidUris.add(uriString);
+    public void add(URI uri) {
+        validUris.add(uri);
     }
-  }
 
-  public void resolve(URI baseUri, String uriString) {
-    try {
-      add(baseUri.resolve(uriString));
-    } catch (IllegalArgumentException e) {
-      invalidUris.add(uriString);
+    public void add(String uriString) {
+        try {
+            add(new URI(uriString));
+        } catch (URISyntaxException e) {
+            invalidUris.add(uriString);
+        }
     }
-  }
 
-  public void resolve(URI baseUri, Collection<String> uriStrings) {
-    for (String uriString : uriStrings) {
-      resolve(baseUri, uriString);
+    public void resolve(URI baseUri, String uriString) {
+        try {
+            add(baseUri.resolve(uriString));
+        } catch (IllegalArgumentException e) {
+            invalidUris.add(uriString);
+        }
     }
-  }
 
-  public Set<URI> getValidUris() {
-    return validUris;
-  }
+    public void resolve(URI baseUri, Collection<String> uriStrings) {
+        for (String uriString : uriStrings) {
+            resolve(baseUri, uriString);
+        }
+    }
 
-  public Set<String> getInvalidUris() {
-    return invalidUris;
-  }
+    public Set<URI> getValidUris() {
+        return validUris;
+    }
+
+    public Set<String> getInvalidUris() {
+        return invalidUris;
+    }
 }

@@ -5,6 +5,6 @@ package nl.knaw.dans.rs.aggregator.http;
  */
 public class Testing {
 
-  public static boolean LIVE_TESTS = false;
+    public static boolean LIVE_TESTS = false;
 
 }

@@ -29,82 +29,85 @@ import java.util.Date;
  */
 public class FsSitemapConverterProvider implements SitemapConverterProvider {
 
-  private static Logger logger = LoggerFactory.getLogger(FsSitemapConverterProvider.class);
+    private static Logger logger = LoggerFactory.getLogger(FsSitemapConverterProvider.class);
 
-  private ResourceSyncContext rsContext;
-  private PathFinder currentPathFinder;
-
-  @Override
-  public LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, RsRoot, Exception> getConverter() {
-    return fileSavingConverter;
-  }
-
-  private LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, RsRoot, Exception>
+    private ResourceSyncContext rsContext;
+    private PathFinder currentPathFinder;
+    private LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, RsRoot, Exception>
       fileSavingConverter = (uri, response) -> {
 
-      HttpEntity entity = response.getEntity();
-      RsRoot rsRoot = null;
-      if (entity != null) {
-        File file = getCurrentPathFinder().findMetadataFilePath(uri);
-        File directoryPath = file.getParentFile();
-        if (directoryPath.mkdirs()) logger.debug("Created directory path {}", directoryPath);
-        InputStream instream = entity.getContent();
-        boolean saved = saveFile(instream, file);
-        if (saved) {
-          logger.debug("Saved {} --> {}", uri, file);
-          Header lmh = response.getFirstHeader("Last-Modified");
-          if (lmh != null) {
-            Date date = DateUtils.parseDate(lmh.getValue());
-            if (file.setLastModified(date.getTime())) logger.debug("Last modified from remote: {} on {}", date, file);
-          }
-          rsRoot = new RsBuilder(getRsContext()).setFile(file).build().orElse(null);
-          if (rsRoot != null) {
-            logger.debug("Collected sitemap with capability {} from {}", rsRoot.getCapability(), uri);
-          }
+        HttpEntity entity = response.getEntity();
+        RsRoot rsRoot = null;
+        if (entity != null) {
+            File file = getCurrentPathFinder().findMetadataFilePath(uri);
+            File directoryPath = file.getParentFile();
+            if (directoryPath.mkdirs()) {
+                logger.debug("Created directory path {}", directoryPath);
+            }
+            InputStream instream = entity.getContent();
+            boolean saved = saveFile(instream, file);
+            if (saved) {
+                logger.debug("Saved {} --> {}", uri, file);
+                Header lmh = response.getFirstHeader("Last-Modified");
+                if (lmh != null) {
+                    Date date = DateUtils.parseDate(lmh.getValue());
+                    if (file.setLastModified(date.getTime())) {
+                        logger.debug("Last modified from remote: {} on {}", date, file);
+                    }
+                }
+                rsRoot = new RsBuilder(getRsContext()).setFile(file).build().orElse(null);
+                if (rsRoot != null) {
+                    logger.debug("Collected sitemap with capability {} from {}", rsRoot.getCapability(), uri);
+                }
+            }
         }
-      }
-      return rsRoot;
+        return rsRoot;
     };
 
-  private boolean saveFile(InputStream instream, File file) throws IOException {
-    boolean saved = false;
-    byte[] buffer = new byte[8 * 1024];
-    int bytesRead;
-    try (OutputStream outstream = new FileOutputStream(file); InputStream ins = instream) {
-      while ((bytesRead = ins.read(buffer)) != -1) {
-        outstream.write(buffer, 0, bytesRead);
-      }
-      saved = true;
+    @Override
+    public LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, RsRoot, Exception> getConverter() {
+        return fileSavingConverter;
     }
-    return saved;
-  }
 
-  @Override
-  public FsSitemapConverterProvider withResourceSyncContext(ResourceSyncContext rsContext) {
-    this.rsContext = rsContext;
-    return this;
-  }
-
-  @Override
-  public void setPathFinder(PathFinder pathFinder) {
-    currentPathFinder = pathFinder;
-  }
-
-  private PathFinder getCurrentPathFinder() {
-    if (currentPathFinder == null) {
-      throw new IllegalStateException("No PathFinder set.");
+    private boolean saveFile(InputStream instream, File file) throws IOException {
+        boolean saved = false;
+        byte[] buffer = new byte[8 * 1024];
+        int bytesRead;
+        try (OutputStream outstream = new FileOutputStream(file); InputStream ins = instream) {
+            while ((bytesRead = ins.read(buffer)) != -1) {
+                outstream.write(buffer, 0, bytesRead);
+            }
+            saved = true;
+        }
+        return saved;
     }
-    return currentPathFinder;
-  }
 
-  private ResourceSyncContext getRsContext() {
-    if (rsContext == null) {
-      try {
-        rsContext = new ResourceSyncContext();
-      } catch (JAXBException e) {
-        throw new RuntimeException(e);
-      }
+    @Override
+    public FsSitemapConverterProvider withResourceSyncContext(ResourceSyncContext rsContext) {
+        this.rsContext = rsContext;
+        return this;
     }
-    return rsContext;
-  }
+
+    @Override
+    public void setPathFinder(PathFinder pathFinder) {
+        currentPathFinder = pathFinder;
+    }
+
+    private PathFinder getCurrentPathFinder() {
+        if (currentPathFinder == null) {
+            throw new IllegalStateException("No PathFinder set.");
+        }
+        return currentPathFinder;
+    }
+
+    private ResourceSyncContext getRsContext() {
+        if (rsContext == null) {
+            try {
+                rsContext = new ResourceSyncContext();
+            } catch (JAXBException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return rsContext;
+    }
 }

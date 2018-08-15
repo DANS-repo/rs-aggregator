@@ -16,80 +16,87 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestTest {
 
-  public static void main(String[] args) throws Exception {
-    //fixedRate();
-    //fixedDelay();
-    //computestart();
+    public static void main(String[] args) throws Exception {
+        //fixedRate();
+        //fixedDelay();
+        //computestart();
 
-    pathTest();
-  }
+        //pathTest();
+        fileTest();
+    }
 
-  private static void pathTest() {
-    URI uri = URI.create("http://example.com/path/to/description.xml");
-    System.out.println(FilenameUtils.getName(uri.getPath()));
+    private static void fileTest() {
+        File file = new File("/foo/bar/file.ext");
+        System.out.println(file.getPath());
+    }
 
-    uri = URI.create("http://www.example.com");
+    private static void pathTest() {
+        URI uri = URI.create("http://example.com/path/to/description.xml");
+        System.out.println(FilenameUtils.getName(uri.getPath()));
 
-    System.out.println(FilenameUtils.getName(uri.getPath()));
-  }
+        uri = URI.create("http://www.example.com");
 
-  private static void fixedDelay() {
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        System.out.println(FilenameUtils.getName(uri.getPath()));
+    }
 
-    Runnable task = () -> {
-      try {
-        System.out.println("Scheduling: " + System.nanoTime());
-        TimeUnit.SECONDS.sleep(2);
-        System.out.println("Ready:      " +  System.nanoTime());
-      }
-      catch (InterruptedException e) {
-        System.err.println("task interrupted");
-      }
-    };
+    private static void fixedDelay() {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-    executor.scheduleWithFixedDelay(task, 0, 4, TimeUnit.SECONDS);
-  }
+        Runnable task = () -> {
+            try {
+                System.out.println("Scheduling: " + System.nanoTime());
+                TimeUnit.SECONDS.sleep(2);
+                System.out.println("Ready:      " + System.nanoTime());
+            } catch (InterruptedException e) {
+                System.err.println("task interrupted");
+            }
+        };
 
-  private static void fixedRate() throws Exception {
-    // starts immediately after the task has run
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleWithFixedDelay(task, 0, 4, TimeUnit.SECONDS);
+    }
 
-    Runnable task = () -> {
-      System.out.println("Scheduling: " + System.nanoTime() + " " + ZonedDateTime.now());
-      try {
-        TimeUnit.SECONDS.sleep(5);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      System.out.println("Ready:      " +  System.nanoTime() + " " + ZonedDateTime.now());
-    };
+    private static void fixedRate() throws Exception {
+        // starts immediately after the task has run
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-    int initialDelay = 0;
-    int period = 8;
-    executor.scheduleAtFixedRate(task, initialDelay, period, TimeUnit.SECONDS);
+        Runnable task = () -> {
+            System.out.println("Scheduling: " + System.nanoTime() + " " + ZonedDateTime.now());
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Ready:      " + System.nanoTime() + " " + ZonedDateTime.now());
+        };
 
-    ScheduledExecutorService watch = Executors.newScheduledThreadPool(1);
-    Runnable watcher = () -> {
-      if (new File("stop").exists()) {
-        System.out.println("Stopping executor because file 'stop' exists.");
-        executor.shutdown();
-        watch.shutdown();
-      }
-    };
+        int initialDelay = 0;
+        int period = 8;
+        executor.scheduleAtFixedRate(task, initialDelay, period, TimeUnit.SECONDS);
 
-    watch.scheduleWithFixedDelay(watcher, 1, 1, TimeUnit.SECONDS);
-  }
+        ScheduledExecutorService watch = Executors.newScheduledThreadPool(1);
+        Runnable watcher = () -> {
+            if (new File("stop").exists()) {
+                System.out.println("Stopping executor because file 'stop' exists.");
+                executor.shutdown();
+                watch.shutdown();
+            }
+        };
 
-  private static void computestart() {
-    int startHour = 14;
-    int startMinute = 10;
-    ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-    ZonedDateTime start = now.withHour(startHour).withMinute(startMinute).withSecond(0).withNano(0);
-    if (start.isBefore(now)) start = start.plusDays(1);
+        watch.scheduleWithFixedDelay(watcher, 1, 1, TimeUnit.SECONDS);
+    }
 
-    long initialDelay = ChronoUnit.MINUTES.between(now, start);
-    System.out.println(now);
-    System.out.println(start);
-    System.out.println(initialDelay + " -> " + initialDelay/60);
-  }
+    private static void computestart() {
+        int startHour = 14;
+        int startMinute = 10;
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime start = now.withHour(startHour).withMinute(startMinute).withSecond(0).withNano(0);
+        if (start.isBefore(now)) {
+            start = start.plusDays(1);
+        }
+
+        long initialDelay = ChronoUnit.MINUTES.between(now, start);
+        System.out.println(now);
+        System.out.println(start);
+        System.out.println(initialDelay + " -> " + initialDelay / 60);
+    }
 }

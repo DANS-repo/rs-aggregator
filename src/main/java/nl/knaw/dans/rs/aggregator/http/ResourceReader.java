@@ -20,49 +20,47 @@ import java.util.Date;
  */
 public class ResourceReader extends AbstractUriReader {
 
-  private File currentFile;
-
-
-  public ResourceReader(CloseableHttpClient httpClient) {
-    super(httpClient);
-  }
-
-  public Result<File> read(String url, File file) throws URISyntaxException {
-    URI uri = new URI(url);
-    return read(uri, file);
-  }
-
-  public Result<File> read(URI uri, File file) {
-    currentFile = file;
-    return execute(uri, fileWriter);
-  }
-
-  public File getCurrentFile() {
-    return currentFile;
-  }
-
-  private LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, File, Exception> fileWriter = (uri, response) -> {
-    HttpEntity entity = response.getEntity();
-    if (entity != null) {
-      File file = getCurrentFile();
-      file.getParentFile().mkdirs();
-      byte[] buffer = new byte[8 * 1024];
-      int bytesRead;
-      try (InputStream instream = entity.getContent(); OutputStream outstream = new FileOutputStream(file)) {
-        while ((bytesRead = instream.read(buffer)) != -1) {
-          outstream.write(buffer, 0, bytesRead);
+    private File currentFile;
+    private LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, File, Exception> fileWriter = (uri, response) -> {
+        HttpEntity entity = response.getEntity();
+        if (entity != null) {
+            File file = getCurrentFile();
+            file.getParentFile().mkdirs();
+            byte[] buffer = new byte[8 * 1024];
+            int bytesRead;
+            try (InputStream instream = entity.getContent(); OutputStream outstream = new FileOutputStream(file)) {
+                while ((bytesRead = instream.read(buffer)) != -1) {
+                    outstream.write(buffer, 0, bytesRead);
+                }
+                Header lmh = response.getFirstHeader("Last-Modified");
+                if (lmh != null) {
+                    Date date = DateUtils.parseDate(lmh.getValue());
+                    file.setLastModified(date.getTime());
+                }
+            }
+            return file;
+        } else {
+            return null;
         }
-        Header lmh = response.getFirstHeader("Last-Modified");
-        if (lmh != null) {
-          Date date = DateUtils.parseDate(lmh.getValue());
-          file.setLastModified(date.getTime());
-        }
-      }
-      return file;
-    } else {
-      return null;
+    };
+
+    public ResourceReader(CloseableHttpClient httpClient) {
+        super(httpClient);
     }
-  };
+
+    public Result<File> read(String url, File file) throws URISyntaxException {
+        URI uri = new URI(url);
+        return read(uri, file);
+    }
+
+    public Result<File> read(URI uri, File file) {
+        currentFile = file;
+        return execute(uri, fileWriter);
+    }
+
+    public File getCurrentFile() {
+        return currentFile;
+    }
 
 
 }

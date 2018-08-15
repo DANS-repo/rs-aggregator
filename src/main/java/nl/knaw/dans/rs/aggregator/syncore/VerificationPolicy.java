@@ -13,35 +13,35 @@ package nl.knaw.dans.rs.aggregator.syncore;
  */
 public interface VerificationPolicy {
 
-  /**
-   * Should successive verifications go on, given the status of verifications.
-   *
-   * @param stHash {@link VerificationStatus} of hash of resource
-   * @param stLastMod {@link VerificationStatus} of last modified date of resource
-   * @param stSize {@link VerificationStatus} of the size of the resource
-   * @return <code>true</code> if verification should continue, <code>false</code> otherwise
-   */
-  boolean continueVerification(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize);
+    /**
+     * Should successive verifications go on, given the status of verifications.
+     *
+     * @param stHash    {@link VerificationStatus} of hash of resource
+     * @param stLastMod {@link VerificationStatus} of last modified date of resource
+     * @param stSize    {@link VerificationStatus} of the size of the resource
+     * @return <code>true</code> if verification should continue, <code>false</code> otherwise
+     */
+    boolean continueVerification(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize);
 
-  /**
-   * Should we repeat the download of a resource, given the status of verifications.
-   *
-   * @param stHash {@link VerificationStatus} of hash of resource
-   * @param stLastMod {@link VerificationStatus} of last modified date of resource
-   * @param stSize {@link VerificationStatus} of the size of the resource
-   * @return <code>true</code> if download should be repeated, <code>false</code> otherwise
-   */
-  boolean repeatDownload(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize);
+    /**
+     * Should we repeat the download of a resource, given the status of verifications.
+     *
+     * @param stHash    {@link VerificationStatus} of hash of resource
+     * @param stLastMod {@link VerificationStatus} of last modified date of resource
+     * @param stSize    {@link VerificationStatus} of the size of the resource
+     * @return <code>true</code> if download should be repeated, <code>false</code> otherwise
+     */
+    boolean repeatDownload(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize);
 
-  /**
-   * Can the resource be marked as verified, given the status of verifications.
-   *
-   * @param stHash {@link VerificationStatus} of hash of resource
-   * @param stLastMod {@link VerificationStatus} of last modified date of resource
-   * @param stSize {@link VerificationStatus} of the size of the resource
-   * @return <code>true</code> if resource should be marked as verified, <code>false</code> otherwise
-   */
-  boolean isVerified(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize);
+    /**
+     * Can the resource be marked as verified, given the status of verifications.
+     *
+     * @param stHash    {@link VerificationStatus} of hash of resource
+     * @param stLastMod {@link VerificationStatus} of last modified date of resource
+     * @param stSize    {@link VerificationStatus} of the size of the resource
+     * @return <code>true</code> if resource should be marked as verified, <code>false</code> otherwise
+     */
+    boolean isVerified(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize);
 
 
 }

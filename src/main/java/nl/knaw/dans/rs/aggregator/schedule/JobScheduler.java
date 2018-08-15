@@ -5,6 +5,6 @@ package nl.knaw.dans.rs.aggregator.schedule;
  */
 public interface JobScheduler {
 
-  void schedule(Job job) throws Exception;
+    void schedule(Job job) throws Exception;
 
 }

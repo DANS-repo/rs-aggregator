@@ -11,22 +11,23 @@ import java.util.List;
 @XmlRootElement(
   namespace = "http://www.sitemaps.org/schemas/sitemap/0.9",
   name = "urlset"
-  )
+)
 public class Urlset extends RsRoot<Urlset, UrlItem> {
 
-  public static final QName QNAME = new QName("http://www.sitemaps.org/schemas/sitemap/0.9", "urlset");
+    public static final QName QNAME = new QName("http://www.sitemaps.org/schemas/sitemap/0.9", "urlset");
 
-  @XmlElement(name = "url", namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")
-  private List<UrlItem> urlList = new ArrayList<>();
+    @XmlElement(name = "url", namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")
+    private List<UrlItem> urlList = new ArrayList<>();
 
-  protected Urlset() {}
+    protected Urlset() {
+    }
 
-  public Urlset(@Nonnull RsMd rsMd) {
-    withMetadata(rsMd);
-  }
+    public Urlset(@Nonnull RsMd rsMd) {
+        withMetadata(rsMd);
+    }
 
-  public List<UrlItem> getItemList() {
-    return urlList;
-  }
+    public List<UrlItem> getItemList() {
+        return urlList;
+    }
 
 }

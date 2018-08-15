@@ -7,6 +7,7 @@ import nl.knaw.dans.rs.aggregator.http.ResourceReader;
 import nl.knaw.dans.rs.aggregator.http.Result;
 import nl.knaw.dans.rs.aggregator.syncore.PathFinder;
 import nl.knaw.dans.rs.aggregator.syncore.Sync;
+import nl.knaw.dans.rs.aggregator.util.HashUtil;
 import nl.knaw.dans.rs.aggregator.util.LambdaUtil;
 import nl.knaw.dans.rs.aggregator.util.NormURI;
 import nl.knaw.dans.rs.aggregator.util.RsProperties;
@@ -29,6 +30,7 @@ import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.security.NoSuchAlgorithmException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -74,6 +76,7 @@ public class SitemapCollector implements RsConstants {
     private boolean foundNewResourceList;
     private String descriptionFile;
     private String descriptionType;
+    private String descriptionHash;
 
 
     public SitemapCollector() {
@@ -296,6 +299,7 @@ public class SitemapCollector implements RsConstants {
         syncProps.setInt(Sync.PROP_CL_ITEMS_DELETED, countDeleted);
         syncProps.setProperty(Sync.PROP_CL_DESCRIPTION_FILE, descriptionFile);
         syncProps.setProperty(Sync.PROP_CL_DESCRIPTION_TYPE, descriptionType);
+        syncProps.setProperty(Sync.PROP_CL_DESCRIPTION_HASH, descriptionHash);
 
         try {
             File file = pathFinder.getSyncPropXmlFile();
@@ -429,7 +433,7 @@ public class SitemapCollector implements RsConstants {
                 if (!maybeAt.isPresent()) {
                     item.getMetadata().map(rsMd1 -> rsMd1.withAt(listAt));
                 }
-
+                logger.debug("Resourcelist: at {}, {}", item.getRsMdAt(), item.getLoc());
                 // merge item with recentItems
                 mergeItem(usResult, item);
             }
@@ -498,7 +502,7 @@ public class SitemapCollector implements RsConstants {
                         logger.warn("Missing required md:change attribute on changeList: {}", usResult);
                         return;
                     }
-
+                    logger.debug("Changelist: datetime {}, {}", item.getRsMdDateTime(), item.getLoc());
                     // merge item with recentItems
                     mergeItem(usResult, item);
                 }
@@ -517,7 +521,13 @@ public class SitemapCollector implements RsConstants {
             descriptionType = rsLn.getType().orElse(null);
             File destination = pathFinder.getDescriptionFile(uri);
             getResourceReader().read(uri, destination);
-            descriptionFile = destination.getAbsolutePath();
+            descriptionFile = destination.getPath();
+            logger.info("Downloaded description link {}", rsLn.getHref());
+            try {
+                descriptionHash = "sha1:" + HashUtil.computeHash("sha1", destination);
+            } catch (IOException | NoSuchAlgorithmException e) {
+                logger.warn("Could not compute description hash", e);
+            }
         }
     }
 

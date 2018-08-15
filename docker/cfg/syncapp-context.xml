@@ -8,7 +8,8 @@
     <bean id="sitemap-converter-provider" class="nl.knaw.dans.rs.aggregator.sync.FsSitemapConverterProvider"/>
 
     <!-- verification-policy is an implementationnl.knaw.dans.rs.aggregator.syncore.VerificationPolicylicy -->
-    <bean id="verification-policy" class="nl.knaw.dans.rs.aggregator.sync.DefaultVerificationPolicy"/>
+    <!--<bean id="verification-policy" class="nl.knaw.dans.rs.aggregator.sync.DefaultVerificationPolicy"/>-->
+    <bean id="verification-policy" class="nl.knaw.dans.rs.aggregator.sync.NoVerificationPolicy"/>
 
     <!-- resource-manager is an implementationnl.knaw.dans.rs.aggregator.syncore.ResourceManagerager -->
     <bean id="resource-manager" class="nl.knaw.dans.rs.aggregator.sync.FsResourceManager"/>

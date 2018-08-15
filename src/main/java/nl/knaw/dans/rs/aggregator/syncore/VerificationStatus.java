@@ -5,8 +5,8 @@ package nl.knaw.dans.rs.aggregator.syncore;
  */
 public enum VerificationStatus {
 
-  not_verified,
-  verification_success,
-  verification_failure,
-  verification_error
+    not_verified,
+    verification_success,
+    verification_failure,
+    verification_error
 }

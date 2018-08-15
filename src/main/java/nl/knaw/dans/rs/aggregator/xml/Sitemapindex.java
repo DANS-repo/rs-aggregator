@@ -10,22 +10,23 @@ import java.util.List;
 @XmlRootElement(
   namespace = "http://www.sitemaps.org/schemas/sitemap/0.9",
   name = "sitemapindex"
-  )
+)
 public class Sitemapindex extends RsRoot<Sitemapindex, SitemapItem> {
 
-  public static final QName QNAME = new QName("http://www.sitemaps.org/schemas/sitemap/0.9", "sitemapindex");
+    public static final QName QNAME = new QName("http://www.sitemaps.org/schemas/sitemap/0.9", "sitemapindex");
 
-  @XmlElement(name = "sitemap", namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")
-  private List<SitemapItem> siteMapList = new ArrayList<>();
+    @XmlElement(name = "sitemap", namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")
+    private List<SitemapItem> siteMapList = new ArrayList<>();
 
-  protected Sitemapindex() {}
+    protected Sitemapindex() {
+    }
 
-  public Sitemapindex(@Nonnull RsMd rsMd) {
-    withMetadata(rsMd);
-  }
+    public Sitemapindex(@Nonnull RsMd rsMd) {
+        withMetadata(rsMd);
+    }
 
-  public List<SitemapItem> getItemList() {
-    return siteMapList;
-  }
+    public List<SitemapItem> getItemList() {
+        return siteMapList;
+    }
 
 }

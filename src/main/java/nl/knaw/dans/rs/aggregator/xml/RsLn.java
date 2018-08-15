@@ -11,109 +11,119 @@ import java.util.Optional;
 
 @XmlType(name = "ln",
   namespace = "http://www.openarchives.org/rs/terms/",
-  propOrder = { "rel", "href" }
-  )
+  propOrder = {"rel", "href"}
+)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RsLn {
 
-  public static final String REL_UP = "up";
-  public static final String REL_DESCRIBEDBY = "describedby";
+    public static final String REL_UP = "up";
+    public static final String REL_DESCRIBEDBY = "describedby";
 
-  @XmlAttribute() private String rel;
-  @XmlAttribute() private String href;
+    @XmlAttribute()
+    private String rel;
+    @XmlAttribute()
+    private String href;
 
-  @XmlAttribute() private String encoding;
-  @XmlAttribute() private String hash;
-  @XmlAttribute() private Long length;
-  @XmlAttribute() private ZonedDateTime modified;
-  @XmlAttribute() private String path;
-  @XmlAttribute() private Integer pri;
-  @XmlAttribute() private String type;
+    @XmlAttribute()
+    private String encoding;
+    @XmlAttribute()
+    private String hash;
+    @XmlAttribute()
+    private Long length;
+    @XmlAttribute()
+    private ZonedDateTime modified;
+    @XmlAttribute()
+    private String path;
+    @XmlAttribute()
+    private Integer pri;
+    @XmlAttribute()
+    private String type;
 
-  private RsLn() {}
+    private RsLn() {
+    }
 
-  public RsLn(@Nonnull String rel, @Nonnull String href) {
-    withRel(rel).withHref(href);
-  }
+    public RsLn(@Nonnull String rel, @Nonnull String href) {
+        withRel(rel).withHref(href);
+    }
 
-  public String getRel() {
-    return rel;
-  }
+    public String getRel() {
+        return rel;
+    }
 
-  public RsLn withRel(@Nonnull String rel) {
-    this.rel = Objects.requireNonNull(rel);
-    return this;
-  }
+    public RsLn withRel(@Nonnull String rel) {
+        this.rel = Objects.requireNonNull(rel);
+        return this;
+    }
 
-  public String getHref() {
-    return href;
-  }
+    public String getHref() {
+        return href;
+    }
 
-  public RsLn withHref(@Nonnull String href) {
-    this.href = Objects.requireNonNull(href);
-    return this;
-  }
+    public RsLn withHref(@Nonnull String href) {
+        this.href = Objects.requireNonNull(href);
+        return this;
+    }
 
-  public Optional<String> getEncoding() {
-    return Optional.ofNullable(encoding);
-  }
+    public Optional<String> getEncoding() {
+        return Optional.ofNullable(encoding);
+    }
 
-  public RsLn withEncoding(String encoding) {
-    this.encoding = encoding;
-    return this;
-  }
+    public RsLn withEncoding(String encoding) {
+        this.encoding = encoding;
+        return this;
+    }
 
-  public Optional<String> getHash() {
-    return Optional.ofNullable(hash);
-  }
+    public Optional<String> getHash() {
+        return Optional.ofNullable(hash);
+    }
 
-  public RsLn withHash(String hash) {
-    this.hash = hash;
-    return this;
-  }
+    public RsLn withHash(String hash) {
+        this.hash = hash;
+        return this;
+    }
 
-  public Optional<Long> getLength() {
-    return Optional.ofNullable(length);
-  }
+    public Optional<Long> getLength() {
+        return Optional.ofNullable(length);
+    }
 
-  public RsLn withLength(Long length) {
-    this.length = length;
-    return this;
-  }
+    public RsLn withLength(Long length) {
+        this.length = length;
+        return this;
+    }
 
-  public Optional<ZonedDateTime> getModified() {
-    return Optional.ofNullable(modified);
-  }
+    public Optional<ZonedDateTime> getModified() {
+        return Optional.ofNullable(modified);
+    }
 
-  public RsLn withModified(ZonedDateTime modified) {
-    this.modified = modified;
-    return this;
-  }
+    public RsLn withModified(ZonedDateTime modified) {
+        this.modified = modified;
+        return this;
+    }
 
-  public Optional<String> getPath() {
-    return Optional.ofNullable(path);
-  }
+    public Optional<String> getPath() {
+        return Optional.ofNullable(path);
+    }
 
-  public RsLn withPath(String path) {
-    this.path = path;
-    return this;
-  }
+    public RsLn withPath(String path) {
+        this.path = path;
+        return this;
+    }
 
-  public Optional<Integer> getPri() {
-    return Optional.ofNullable(pri);
-  }
+    public Optional<Integer> getPri() {
+        return Optional.ofNullable(pri);
+    }
 
-  public RsLn withPri(Integer pri) {
-    this.pri = pri;
-    return this;
-  }
+    public RsLn withPri(Integer pri) {
+        this.pri = pri;
+        return this;
+    }
 
-  public Optional<String> getType() {
-    return Optional.ofNullable(type);
-  }
+    public Optional<String> getType() {
+        return Optional.ofNullable(type);
+    }
 
-  public RsLn withType(String type) {
-    this.type = type;
-    return this;
-  }
+    public RsLn withType(String type) {
+        this.type = type;
+        return this;
+    }
 }

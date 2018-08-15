@@ -3,7 +3,9 @@ package nl.knaw.dans.rs.aggregator.sync;
 import nl.knaw.dans.rs.aggregator.syncore.VerificationPolicy;
 import nl.knaw.dans.rs.aggregator.syncore.VerificationStatus;
 
-import static nl.knaw.dans.rs.aggregator.syncore.VerificationStatus.*;
+import static nl.knaw.dans.rs.aggregator.syncore.VerificationStatus.not_verified;
+import static nl.knaw.dans.rs.aggregator.syncore.VerificationStatus.verification_failure;
+import static nl.knaw.dans.rs.aggregator.syncore.VerificationStatus.verification_success;
 
 /**
  * A default {@link VerificationPolicy} that should be a valid policy under most circumstances where
@@ -12,28 +14,28 @@ import static nl.knaw.dans.rs.aggregator.syncore.VerificationStatus.*;
  */
 public class DefaultVerificationPolicy implements VerificationPolicy {
 
-  @Override
-  public boolean continueVerification(VerificationStatus stHash, VerificationStatus stLastMod,
-                                      VerificationStatus stSize) {
-    return true;
-  }
-
-  @Override
-  public boolean repeatDownload(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize) {
-    if (stHash == verification_failure || stLastMod == verification_failure) {
-      return true; // keep strict policy on last modification date.
-    } else if (stHash == verification_success) {
-      return false; // perfect.
-    } else if ((stLastMod == verification_success && stSize == verification_success)) {
-      return false; // will do if no hash is available.
-    } else if (stHash == not_verified && stLastMod == not_verified && stSize == not_verified) {
-      return true; // no verification possible: repeat download.
+    @Override
+    public boolean continueVerification(VerificationStatus stHash, VerificationStatus stLastMod,
+                                        VerificationStatus stSize) {
+        return true;
     }
-    return true; // under all other conditions.
-  }
 
-  @Override
-  public boolean isVerified(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize) {
-    return stHash == verification_success || (stLastMod == verification_success && stSize == verification_success);
-  }
+    @Override
+    public boolean repeatDownload(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize) {
+        if (stHash == verification_failure || stLastMod == verification_failure) {
+            return true; // keep strict policy on last modification date.
+        } else if (stHash == verification_success) {
+            return false; // perfect.
+        } else if ((stLastMod == verification_success && stSize == verification_success)) {
+            return false; // will do if no hash is available.
+        } else if (stHash == not_verified && stLastMod == not_verified && stSize == not_verified) {
+            return true; // no verification possible: repeat download.
+        }
+        return true; // under all other conditions.
+    }
+
+    @Override
+    public boolean isVerified(VerificationStatus stHash, VerificationStatus stLastMod, VerificationStatus stSize) {
+        return stHash == verification_success || (stLastMod == verification_success && stSize == verification_success);
+    }
 }

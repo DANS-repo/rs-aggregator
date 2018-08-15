@@ -13,26 +13,26 @@ import java.net.URI;
  */
 public interface SitemapConverterProvider {
 
-  /**
-   * Provide the converter that returns an {@link RsRoot} when given a URI and a HttpResponse.
-   * The converter may throw an Exception.
-   *
-   * @return converter
-   */
-  LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, RsRoot, Exception> getConverter();
+    /**
+     * Provide the converter that returns an {@link RsRoot} when given a URI and a HttpResponse.
+     * The converter may throw an Exception.
+     *
+     * @return converter
+     */
+    LambdaUtil.BiFunction_WithExceptions<URI, HttpResponse, RsRoot, Exception> getConverter();
 
-  /**
-   * Set the {@link PathFinder} that corresponds to the URI the provided converter is about to handle.
-   *
-   * @param pathFinder PathFinder that corresponds to the URI the provided converter is about to handle
-   */
-  void setPathFinder(PathFinder pathFinder);
+    /**
+     * Set the {@link PathFinder} that corresponds to the URI the provided converter is about to handle.
+     *
+     * @param pathFinder PathFinder that corresponds to the URI the provided converter is about to handle
+     */
+    void setPathFinder(PathFinder pathFinder);
 
-  /**
-   * Set the {@link ResourceSyncContext} for the provided converter.
-   *
-   * @param rsContext ResourceSyncContext} for the provided converter
-   * @return this for enabling method chaining
-   */
-  SitemapConverterProvider withResourceSyncContext(ResourceSyncContext rsContext);
+    /**
+     * Set the {@link ResourceSyncContext} for the provided converter.
+     *
+     * @param rsContext ResourceSyncContext} for the provided converter
+     * @return this for enabling method chaining
+     */
+    SitemapConverterProvider withResourceSyncContext(ResourceSyncContext rsContext);
 }
